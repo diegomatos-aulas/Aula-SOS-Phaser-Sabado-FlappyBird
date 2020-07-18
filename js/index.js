@@ -5,7 +5,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: {
-        y: 1200
+        y: 0
       }
     } // ARCADE, MATTER E IMPACT
   },
