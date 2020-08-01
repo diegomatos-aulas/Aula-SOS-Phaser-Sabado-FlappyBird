@@ -34,31 +34,41 @@ class GameScene extends Phaser.Scene{
 
     // Canos
     this.canos = this.physics.add.group();
-    window.setInterval(this.adicionarCanos, 2000);
-    // this.time.addEvent({
-    //   delay: 2000,
-    //   callback: this.adicionarCanos,
-    //   callbackScope: this,
-    //   loop: true
-    // })
+    // this.idUnicoDoLoop = window.setInterval(this.adicionarCanos, 2000);
+    this.time.addEvent({
+      delay: 2000,
+      callback: this.adicionarCanos,
+      callbackScope: this,
+      loop: true
+    })
 
     // Interatividade
     this.input.on("pointerdown", this.voar, this);
 
+    // HUD
+    this.pontuacao = 0;
+    this.pontuacao_txt = this.add.text(20, 20, "0", {fontSize: "30px"});
+    this.pontuacao_txt.depth = 6;
+
     // Colisoes
-    this.physics.add.overlap(this.jogador, this.canos, (objeto1, objeto2) => console.log(objeto2), null, this);
+    this.physics.add.overlap(this.jogador, this.canos, this.gameOver , null, this);
   }
 
   update(time, deltaTime){
     this.background.tilePositionX += 0.5;
     this.chao.tilePositionX += 1;
+
+    if (this.jogador.angle < 20){
+      this.jogador.angle++;
+    }
   }
 
   voar(){
     this.jogador.setVelocity(0, -300);
+    this.jogador.angle = -20;
   }
 
-  adicionarCanos = () => {
+  adicionarCanos(){
     let posY = Math.round(Math.random()* -220);
     let canoNorte = this.canos.create(this.LarguraDoJogo, posY, "pipeNorth_img");
     canoNorte.setOrigin(0);
@@ -69,5 +79,9 @@ class GameScene extends Phaser.Scene{
     canoSul.setOrigin(0);
     canoSul.setVelocity(this.velocidadeDosCanos, 0);
     canoSul.depth = 2;
+  }
+
+  gameOver(jogador, cano){
+    this.scene.start("GameOverScene") // Encerra a cena atual e inicializa a proxima
   }
 }

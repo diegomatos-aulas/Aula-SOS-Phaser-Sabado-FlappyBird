@@ -9,7 +9,7 @@ const config = {
       }
     } // ARCADE, MATTER E IMPACT
   },
-  scene: [MenuScene, GameScene],
+  scene: [MenuScene, GameScene, GameOverScene],
   backgroundColor: "#5c94fc",
   scale: {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
