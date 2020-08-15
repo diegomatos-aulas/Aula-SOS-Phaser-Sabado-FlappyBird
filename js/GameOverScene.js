@@ -3,10 +3,13 @@ class GameOverScene extends Phaser.Scene{
     super("GameOverScene")
   }
 
-  init(){
-    let {width, height} = config;
+  init(data){
+    let {width, height} = config; // desestruturação de objetos
     this.LarguraDoJogo = width;
     this.AlturaDoJogo = height;
+
+    this.pontuacaoAtual = data.pontos;
+    this.melhorPontuacao = 0;
   }
 
   create(){
@@ -17,6 +20,18 @@ class GameOverScene extends Phaser.Scene{
     this.enter_btn = this.add.image(this.LarguraDoJogo/2, this.gameOverScreen.y + 100, "enter_img");
 
     this.moeda = this.add.sprite(96, 189, "coin_sprite");
+
+    if (this.pontuacaoAtual < 2) {
+      this.moeda.anims.play("Moeda de Bronze")
+    } else if(this.pontuacaoAtual < 5) {
+      this.moeda.anims.play("Moeda de Prata")
+    } else {
+      this.moeda.anims.play("Moeda de Ouro") 
+    }
+
+    this.pontuacaoAtual_txt = this.add.text(224, 160, this.pontuacaoAtual, {font: "14px Arial"});
+
+    this.melhorPontuacao_txt = this.add.text(224, 200, this.melhorPontuacao, {font: "14px Arial"});
 
     this.enter_btn.setInteractive().on("pointerdown", () => {
       this.scene.start("GameScene") // Encerra a cena atual e inicializa a proxima

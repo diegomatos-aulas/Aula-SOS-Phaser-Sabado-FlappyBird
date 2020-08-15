@@ -61,6 +61,14 @@ class GameScene extends Phaser.Scene{
     if (this.jogador.angle < 20){
       this.jogador.angle++;
     }
+
+    this.canos.children.each(cano => {
+      if(this.jogador.x - this.jogador.displayWidth / 2 > cano.x + cano.displayWidth / 2 + 30 &&
+        cano.pontuado == false){
+        this.adicionarPontuacao(1);
+        cano.pontuado = true;
+      }
+    })
   }
 
   voar(){
@@ -74,6 +82,7 @@ class GameScene extends Phaser.Scene{
     canoNorte.setOrigin(0);
     canoNorte.setVelocity(this.velocidadeDosCanos, 0);
     canoNorte.depth = 4;
+    canoNorte.pontuado = false;
 
     let canoSul = this.canos.create(this.LarguraDoJogo, posY + canoNorte.displayHeight + this.GAP, "pipeSouth_img");
     canoSul.setOrigin(0);
@@ -82,6 +91,11 @@ class GameScene extends Phaser.Scene{
   }
 
   gameOver(jogador, cano){
-    this.scene.start("GameOverScene") // Encerra a cena atual e inicializa a proxima
+    this.scene.start("GameOverScene", {pontos: this.pontuacao}) // Encerra a cena atual e inicializa a proxima
+  }
+
+  adicionarPontuacao(pontos){
+    this.pontuacao += pontos;
+    this.pontuacao_txt.setText(this.pontuacao);
   }
 }
