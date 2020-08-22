@@ -1,3 +1,5 @@
+let pontuacaoMaxima = 0; // Number
+
 const config = {
   width: 320,
   height: 480,

@@ -21,6 +21,16 @@ class MenuScene extends Phaser.Scene{
     this.load.image("pipeNorth_img", "assets/imagens/PipeNorth.png");
     this.load.image("pipeSouth_img", "assets/imagens/PipeSouth.png");
 
+    this.load.audio("fly_sfx", "/assets/audio/fly.mp3")
+    this.load.audio("score_sfx", "/assets/audio/score.mp3")
+
+    let tempPontuacaoMaxima = window.localStorage.getItem("phaser-flappybird-highscore");
+
+    if(tempPontuacaoMaxima){
+      pontuacaoMaxima = tempPontuacaoMaxima;
+    } else{
+      window.localStorage.setItem("phaser-flappybird-highscore", "0");
+    }
   }
 
   create(){
@@ -53,8 +63,9 @@ class MenuScene extends Phaser.Scene{
     this.fundo = this.add.image(0, AlturaDoJogo, "background_img");
     this.fundo.setOrigin(0, 1);
 
-    this.chao = this.add.image(0, AlturaDoJogo, "chao_img");
-    this.chao.setOrigin(0, 1);
+    this.chao = this.add.tileSprite(0, 382, 0, 0, "chao_img");
+    this.chao.setOrigin(0.1);
+    this.chao.setScale(1.2);
 
     this.startMenuIMG = this.add.image(LarguraDoJogo/2, AlturaDoJogo/3, "startMenu_img");
 
